@@ -1,0 +1,995 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Shareholders Resolution - Mankatha (Pvt) Ltd</title>
+  <style>
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+    }
+
+    body {
+      font-family: "Times New Roman", Times, serif;
+      font-size: 12pt;
+      background: #e0e0e0;
+      color: #000;
+      padding: 20px 0;
+    }
+
+    .page {
+      width: 210mm;
+      min-height: 297mm;
+      margin: 20px auto;
+      padding: 18mm;
+      background: #fff;
+      box-shadow: 0 2px 12px rgba(0, 0, 0, 0.3);
+      position: relative;
+      display: flex;
+      flex-direction: column;
+    }
+
+    .page-border {
+      position: absolute;
+      top: 8mm;
+      left: 8mm;
+      right: 8mm;
+      bottom: 8mm;
+      border: 2px solid #000;
+      pointer-events: none;
+    }
+
+    /* ── Header ── */
+    .header {
+      display: flex;
+      align-items: flex-start;
+      border: 1.5px solid #000;
+      padding: 10px 14px;
+      margin-bottom: 16px;
+      gap: 10px;
+    }
+
+    .logo-box {
+      width: 72px;
+      height: 72px;
+      flex-shrink: 0;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+    }
+
+    .logo-box img {
+      width: 72px;
+      height: 72px;
+      object-fit: contain;
+    }
+
+    .header-center {
+      flex: 1;
+      text-align: center;
+    }
+
+    .tamil {
+      font-size: 20pt;
+      font-weight: bold;
+      letter-spacing: 1px;
+      margin-bottom: 2px;
+    }
+
+    .english {
+      font-size: 12pt;
+      font-weight: bold;
+      letter-spacing: 1px;
+    }
+
+    .addr {
+      font-size: 9pt;
+      line-height: 1.7;
+      text-align: right;
+      flex-shrink: 0;
+      min-width: 130px;
+    }
+
+    /* ── Body ── */
+    .date-line {
+      font-weight: bold;
+      margin-bottom: 14px;
+      font-size: 11pt;
+    }
+
+    .res-title {
+      font-weight: bold;
+      font-size: 12pt;
+      text-decoration: underline;
+      margin-bottom: 14px;
+    }
+
+    .intro {
+      margin-bottom: 10px;
+      font-size: 11pt;
+    }
+
+    .sec {
+      margin-bottom: 14px;
+      font-size: 11pt;
+    }
+
+    .sec-head {
+      font-weight: bold;
+      margin-bottom: 4px;
+    }
+
+    .sec-body {
+      margin-left: 20px;
+      line-height: 1.6;
+    }
+
+    .bullets {
+      list-style: none;
+      margin-left: 40px;
+      margin-top: 6px;
+    }
+
+    .bullets li {
+      position: relative;
+      padding-left: 18px;
+      margin-bottom: 4px;
+    }
+
+    .bullets li::before {
+      content: "o";
+      position: absolute;
+      left: 0;
+    }
+
+    /* ── Signature Table ── */
+    table.sig-tbl {
+      width: 100%;
+      border-collapse: collapse;
+      margin-top: 16px;
+      font-size: 11pt;
+    }
+
+    table.sig-tbl th {
+      border: 1px solid #000;
+      padding: 5px 10px;
+      text-align: center;
+      font-weight: normal;
+      font-size: 10pt;
+    }
+
+    table.sig-tbl td {
+      border: 1px solid #000;
+      padding: 3px 8px;
+    }
+
+    table.sig-tbl td:first-child {
+      text-align: center;
+      width: 45px;
+    }
+
+    table.sig-tbl td:nth-child(2) {
+      width: 50%;
+    }
+
+    /* ── Signature cell ── */
+    .sig-cell {
+      height: 38px;
+      position: relative;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      cursor: pointer;
+      background: #fafafa;
+      transition: background .15s;
+    }
+
+    .sig-cell:hover {
+      background: #f0f5ff;
+    }
+
+    .sig-cell.signed {
+      background: #fff;
+    }
+
+    .sig-ph {
+      color: #aaa;
+      font-size: 9pt;
+      font-style: italic;
+      user-select: none;
+    }
+
+    .sig-img {
+      display: none;
+      max-height: 48px;
+      max-width: 100%;
+      pointer-events: none;
+    }
+
+    .sig-edit-hint {
+      position: absolute;
+      bottom: 2px;
+      right: 5px;
+      font-size: 7.5pt;
+      color: #bbb;
+      user-select: none;
+    }
+
+    /* ── Inline pad row ── */
+    .sig-pad-row {
+      display: none;
+    }
+
+    .sig-pad-row td {
+      padding: 8px 10px;
+      background: #f8f9ff;
+      border: 1px solid #000;
+    }
+
+    .sig-pad-wrap {
+      display: flex;
+      flex-direction: column;
+      gap: 6px;
+    }
+
+    .sig-pad-label {
+      font-size: 9.5pt;
+      color: #444;
+      font-style: italic;
+    }
+
+    .sig-pad-canvas {
+      border: 1.5px solid #aaa;
+      border-radius: 3px;
+      background: #fff;
+      cursor: crosshair;
+      touch-action: none;
+      width: 100%;
+      height: 90px;
+      display: block;
+    }
+
+    .sig-pad-btns {
+      display: flex;
+      gap: 8px;
+    }
+
+    .sp-btn {
+      padding: 5px 16px;
+      font-family: "Times New Roman", serif;
+      font-size: 10.5pt;
+      border-radius: 3px;
+      cursor: pointer;
+      border: 1px solid #555;
+      background: #fff;
+    }
+
+    .sp-btn:hover {
+      background: #eee;
+    }
+
+    .sp-btn.save {
+      background: #1a1a6e;
+      color: #fff;
+      border-color: #1a1a6e;
+    }
+
+    .sp-btn.save:hover {
+      background: #2a2a9e;
+    }
+
+    .sp-btn.clr {
+      background: #e8e8e8;
+    }
+
+    /* ── Submit button ── */
+    .submit-area {
+      margin-top: 24px;
+      text-align: center;
+    }
+
+    .submit-btn {
+      font-family: "Times New Roman", Times, serif;
+      font-size: 12pt;
+      font-weight: bold;
+      background: #1a1a6e;
+      color: #fff;
+      border: none;
+      padding: 10px 44px;
+      cursor: pointer;
+      letter-spacing: 1px;
+      border-radius: 3px;
+    }
+
+    .submit-btn:hover {
+      background: #2a2a9e;
+    }
+
+    /* ── Submitted banner ── */
+    .submitted-banner {
+      display: none;
+      margin-top: 20px;
+
+      border-radius: 5px;
+    
+      padding: 14px 20px;
+      text-align: center;
+    }
+
+    .banner-check {
+      font-size: 22pt;
+      margin-bottom: 4px;
+    }
+
+    .banner-title {
+      font-size: 13pt;
+      font-weight: bold;
+   
+      margin-bottom: 4px;
+    }
+
+    .banner-date {
+      font-size: 10.5pt;
+      color: #333;
+      margin-bottom: 12px;
+    }
+
+    .banner-print-btn {
+      font-family: "Times New Roman", Times, serif;
+      font-size: 11pt;
+      font-weight: bold;
+      background: #1a1a6e;
+      color: #fff;
+      border: none;
+      padding: 8px 32px;
+      cursor: pointer;
+      border-radius: 3px;
+      letter-spacing: 0.5px;
+    }
+
+    .banner-print-btn:hover {
+      background: #2a2a9e;
+    }
+
+    /* ── Locked state after submit ── */
+    .submitted .sig-cell {
+      cursor: default !important;
+      background: #fff !important;
+    }
+
+    .submitted .sig-cell:hover {
+      background: #fff !important;
+    }
+
+    .submitted .sig-cell .sig-ph {
+      display: none !important;
+    }
+
+    .submitted .sig-cell .sig-edit-hint {
+      display: none !important;
+    }
+
+    /* ── Footer ── */
+    .footer-bar {
+      margin-top: auto;
+      text-align: center;
+      font-size: 10pt;
+      padding-top: 6px;
+      width: 100%;
+    }
+
+    /* ── PRINT ── */
+    @media print {
+      @page {
+        margin: 0;
+        size: A4;
+      }
+
+    html, body {
+      margin: 0 !important;
+      padding: 0 !important;
+      background: #fff !important;
+      width: 100%;
+      height: 100%;
+    }
+
+    body {
+      background: #fff;
+    }
+
+    .page {
+      box-shadow: none !important;
+      margin: 0 auto !important;
+      padding: 10mm 15mm !important;
+      width: 210mm !important;
+      height: 289mm !important; /* Aggressively reduced to stop blank page */
+      border: none !important;
+      overflow: visible !important;
+      position: relative;
+      display: flex !important;
+      flex-direction: column;
+      page-break-after: avoid !important;
+      page-break-before: avoid !important;
+      break-after: avoid !important;
+      -webkit-print-color-adjust: exact;
+      print-color-adjust: exact;
+    }
+
+    #page1 {
+      display: none !important;
+    }
+
+    .page:last-child, .page#mainPage {
+      page-break-after: avoid !important;
+    }
+
+    .page-border {
+      border: 2px solid #000 !important;
+      position: absolute;
+      top: 6mm;
+      left: 6mm;
+      right: 6mm;
+      bottom: 6mm;
+      z-index: 100;
+      pointer-events: none;
+    }
+
+      .sig-tbl {
+        margin-top: 10px;
+        margin-bottom: 5px;
+        /* Add space at bottom of table */
+      }
+
+      .sec {
+        margin-bottom: 8px;
+      }
+
+      .date-line {
+        margin-bottom: 8px;
+      }
+
+      table.sig-tbl tr {
+        height: 38px !important; /* Fixed row height for consistency */
+      }
+      table.sig-tbl td {
+        height: 38px !important;
+        vertical-align: middle;
+      }
+      .sig-cell {
+        height: 35px !important;
+      }
+      .sig-img {
+        max-height: 32px !important; /* Ensure image fits inside the fixed row */
+        display: block;
+        margin: auto;
+      }
+
+      .submit-area {
+        display: none !important;
+      }
+
+      .sig-pad-row {
+        display: none !important;
+      }
+
+      .sig-ph,
+      .sig-edit-hint {
+        display: none !important;
+      }
+
+      .submitted-banner {
+        border: none;
+        background: #fff;
+        padding: 0;
+        margin-top: 5px;
+        margin-bottom: 5px;
+      }
+
+      .banner-check {
+        display: none;
+      }
+
+      .banner-title {
+        font-size: 11pt;
+        color: #000;
+      }
+
+      .banner-date {
+        font-size: 10pt;
+        color: #000;
+      }
+
+      .banner-print-btn {
+        display: none !important;
+      }
+
+      .footer-bar {
+        display: block !important;
+        margin-top: auto;
+        padding-bottom: 2mm;
+        font-size: 9pt;
+      }
+    }
+
+    /* Hide Page 1 on screen to follow user request of "only 2 pages when printing" 
+     and keep the UI focused on signing. */
+    @media screen {
+      #page1 {
+        display: none;
+      }
+    }
+  </style>
+</head>
+
+<body>
+
+  <div class="page" id="page1">
+    <div class="page-border"></div>
+    <div class="header">
+      <div class="logo-box">
+        <img src="assets/logo.png" alt="Mankatha Logo">
+      </div>
+      <div class="header-center">
+        <div class="tamil">மங்காத்தா நிறுவனம்</div>
+        <div class="english"><strong>MANKATHA</strong> (PVT) <strong>LTD</strong></div>
+      </div>
+      <div class="addr">No.11 Modern market<br>Valvettiturai<br>Email: mankathavvt@gmail.com</div>
+    </div>
+
+    <div class="date-line">Date: 15 April 2026 21:49</div>
+    <div class="res-title">SHAREHOLDERS RESOLUTION &nbsp;(Director Removal &amp; Appointment)</div>
+    <div class="intro">We, the undersigned shareholders of <strong>Mankatha (Private) Limited</strong>, hereby resolve
+      that:</div>
+
+    <div class="sec">
+      <div class="sec-head">1. &nbsp;&nbsp;Removal of Director</div>
+      <div class="sec-body">Mr. Thevarajah Gnanaraj, Mr. Mohanathas Kavichelvan, Mrs. Rasalingam Luxmy, be and is hereby
+        removed from the position of Director of the Company with effect from 01.05.2026.</div>
+    </div>
+
+    <div class="sec">
+      <div class="sec-head">2. &nbsp;&nbsp;Appointment of New Director</div>
+      <div class="sec-body">Mr. Sothilingam Krishnakumar, be and is hereby appointed as a Director of the Company with
+        effect from 01.05.2026, in accordance with the Articles of Association and the Companies Act No. 07 of 2007.
+      </div>
+    </div>
+
+    <div class="sec">
+      <div>3. &nbsp;&nbsp;The Company Secretary is hereby authorized to:</div>
+      <ul class="bullets">
+        <li>Notify the Registrar of Companies</li>
+        <li>Update statutory records</li>
+        <li>File necessary forms</li>
+      </ul>
+    </div>
+
+    <div style="font-size:11pt;font-weight:bold;margin-top:20px;margin-bottom:6px;">Shareholders</div>
+    <table style="width:100%;border-collapse:collapse;font-size:11pt;">
+      <thead>
+        <tr>
+          <th style="border:1px solid #000;padding:5px 10px;text-align:center;font-weight:normal;font-size:10pt;">No
+          </th>
+          <th style="border:1px solid #000;padding:5px 10px;text-align:center;font-weight:normal;font-size:10pt;">
+            Shareholder Name</th>
+          <th style="border:1px solid #000;padding:5px 10px;text-align:center;font-weight:normal;font-size:10pt;">
+            Signature</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr>
+          <td style="border:1px solid #000;padding:5px 10px;text-align:center;width:60px;">1</td>
+          <td style="border:1px solid #000;padding:5px 10px;">N. Thiruchelvam</td>
+          <td style="border:1px solid #000;padding:5px 10px;height:38px;"></td>
+        </tr>
+        <tr>
+          <td style="border:1px solid #000;padding:5px 10px;text-align:center;width:60px;">2</td>
+          <td style="border:1px solid #000;padding:5px 10px;">T. Gnanaraj</td>
+          <td style="border:1px solid #000;padding:5px 10px;height:38px;"></td>
+        </tr>
+        <tr>
+          <td style="border:1px solid #000;padding:5px 10px;text-align:center;width:60px;">3</td>
+          <td style="border:1px solid #000;padding:5px 10px;">T.Palanivel</td>
+          <td style="border:1px solid #000;padding:5px 10px;height:38px;"></td>
+        </tr>
+        <tr>
+          <td style="border:1px solid #000;padding:5px 10px;text-align:center;width:60px;">4</td>
+          <td style="border:1px solid #000;padding:5px 10px;">S. Lavatheepan</td>
+          <td style="border:1px solid #000;padding:5px 10px;height:38px;"></td>
+        </tr>
+        <tr>
+          <td style="border:1px solid #000;padding:5px 10px;text-align:center;width:60px;">5</td>
+          <td style="border:1px solid #000;padding:5px 10px;">P. Gopalakrishnan</td>
+          <td style="border:1px solid #000;padding:5px 10px;height:38px;"></td>
+        </tr>
+        <tr>
+          <td style="border:1px solid #000;padding:5px 10px;text-align:center;width:60px;">6</td>
+          <td style="border:1px solid #000;padding:5px 10px;">S. Balenthiran</td>
+          <td style="border:1px solid #000;padding:5px 10px;height:38px;"></td>
+        </tr>
+        <tr>
+          <td style="border:1px solid #000;padding:5px 10px;text-align:center;width:60px;">7</td>
+          <td style="border:1px solid #000;padding:5px 10px;">S. Balarajan</td>
+          <td style="border:1px solid #000;padding:5px 10px;height:38px;"></td>
+        </tr>
+        <tr>
+          <td style="border:1px solid #000;padding:5px 10px;text-align:center;width:60px;">8</td>
+          <td style="border:1px solid #000;padding:5px 10px;">A.Navajeevan</td>
+          <td style="border:1px solid #000;padding:5px 10px;height:38px;"></td>
+        </tr>
+        <tr>
+          <td style="border:1px solid #000;padding:5px 10px;text-align:center;width:60px;">9</td>
+          <td style="border:1px solid #000;padding:5px 10px;">S. Srirenganathan</td>
+          <td style="border:1px solid #000;padding:5px 10px;height:38px;"></td>
+        </tr>
+        <tr>
+          <td style="border:1px solid #000;padding:5px 10px;text-align:center;width:60px;">10</td>
+          <td style="border:1px solid #000;padding:5px 10px;">T. Krishnarajh</td>
+          <td style="border:1px solid #000;padding:5px 10px;height:38px;"></td>
+        </tr>
+        <tr>
+          <td style="border:1px solid #000;padding:5px 10px;text-align:center;width:60px;">11</td>
+          <td style="border:1px solid #000;padding:5px 10px;">T. Kumararasan</td>
+          <td style="border:1px solid #000;padding:5px 10px;height:38px;"></td>
+        </tr>
+        <tr>
+          <td style="border:1px solid #000;padding:5px 10px;text-align:center;width:60px;">12</td>
+          <td style="border:1px solid #000;padding:5px 10px;">S. Manimaran</td>
+          <td style="border:1px solid #000;padding:5px 10px;height:38px;"></td>
+        </tr>
+      </tbody>
+    </table>
+
+    <div class="footer-bar"></div>
+  </div>
+
+  <div class="page" id="mainPage">
+    <div class="page-border"></div>
+
+    <!-- ══ HEADER ══ -->
+    <div class="header">
+      <div class="logo-box"><img src="assets/logo.png" alt="Mankatha Logo"></div>
+      <div class="header-center">
+        <div class="tamil">மங்காத்தா நிறுவனம்</div>
+        <div class="english"><strong>MANKATHA</strong> (PVT) <strong>LTD</strong></div>
+      </div>
+      <div class="addr">
+        No.11 Modern market<br>
+        Valvettiturai<br>
+        Email: mankathavvt@gmail.com
+      </div>
+    </div>
+
+    <div class="date-line">Date: 08.04.2026</div>
+    <div class="res-title">SHAREHOLDERS RESOLUTION &nbsp;(Director Removal &amp; Appointment)</div>
+    <div class="intro">We, the undersigned shareholders of <strong>Mankatha (Private) Limited</strong>, hereby resolve
+      that:</div>
+
+    <div class="sec">
+      <div class="sec-head">1. &nbsp;&nbsp;Removal of Director</div>
+      <div class="sec-body">Mr. Thevarajah Gnanaraj, Mr. Mohanathas Kavichelvan, Mrs. Rasalingam Luxmy, be and is hereby
+        removed from the position of Director of the Company with effect from 01.05.2026.</div>
+    </div>
+
+    <div class="sec">
+      <div class="sec-head">2. &nbsp;&nbsp;Appointment of New Director</div>
+      <div class="sec-body">Mr. Sothilingam Krishnakumar, be and is hereby appointed as a Director of the Company with
+        effect from 01.05.2026, in accordance with the Articles of Association and the Companies Act No. 07 of 2007.
+      </div>
+    </div>
+
+    <div class="sec">
+      <div>3. &nbsp;&nbsp;The Company Secretary is hereby authorized to:</div>
+      <ul class="bullets">
+        <li>Notify the Registrar of Companies</li>
+        <li>Update statutory records</li>
+        <li>File necessary forms</li>
+      </ul>
+    </div>
+
+    <!-- ══ SIGNATURE TABLE ══ -->
+    <table class="sig-tbl" id="sigTable">
+      <thead>
+        <tr>
+          <th>No</th>
+          <th>Shareholder Name</th>
+          <th>Signature</th>
+        </tr>
+      </thead>
+      <tbody id="sigBody"></tbody>
+    </table>
+
+    <!-- ══ SUBMIT BUTTON ══ -->
+    <div class="submit-area" id="submitArea">
+      <button class="submit-btn" onclick="submitResolution()">SUBMIT RESOLUTION</button>
+    </div>
+
+    <!-- ══ SUBMITTED BANNER ══ -->
+    <div class="submitted-banner" id="submittedBanner">
+      <div class="banner-date" id="bannerDate"></div>
+      <button class="banner-print-btn" onclick="window.print()">🖨️ Print</button>
+    </div>
+
+
+  </div>
+
+  <script>
+    const names = [
+      "N. Thiruchelvam", "T. Gnanaraj", "T.Palanivel", "S. Lavatheepan",
+      "P. Gopalakrishnan", "S. Balenthiran", "S. Balarajan", "A.Navajeevan",
+      "S. Srirenganathan", "T. Krishnarajh", "T. Kumararasan", "S. Manimaran"
+    ];
+
+    const signatures = {};
+    let activeIdx = null;
+    let drawing = false, lx = 0, ly = 0;
+    let submitted = false;
+
+    window.addEventListener('load', () => {
+      fetchLatestSignatures();
+    });
+
+    async function fetchLatestSignatures() {
+      try {
+        const response = await fetch('/api/signatures/latest');
+        const result = await response.json();
+        if (result.success && result.data && result.data.signatures) {
+          // Merge saved signatures into local object
+          Object.assign(signatures, result.data.signatures);
+          console.log(`✅ Loaded ${Object.keys(signatures).length} saved signature(s) from ${result.source}`);
+        }
+      } catch (err) {
+        console.warn('Could not load existing signatures:', err);
+      }
+      buildTable();
+    }
+
+    // ── Persist a single signature to MongoDB immediately ──────────────────
+    async function persistSignature(i, dataUrl) {
+      try {
+        const res = await fetch('/api/signatures/current', {
+          method: 'PATCH',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify({ index: i, dataUrl: dataUrl || null })
+        });
+        const result = await res.json();
+        if (result.success) {
+          showSaveToast(dataUrl ? '✅ Signature saved!' : '🗑️ Signature cleared');
+        } else {
+          console.warn('Persist failed:', result);
+        }
+      } catch (err) {
+        console.warn('Could not persist signature:', err);
+      }
+    }
+
+    // ── Toast notification ─────────────────────────────────────────────────
+    function showSaveToast(msg) {
+      let toast = document.getElementById('saveToast');
+      if (!toast) {
+        toast = document.createElement('div');
+        toast.id = 'saveToast';
+        toast.style.cssText = [
+          'position:fixed', 'bottom:24px', 'right:24px',
+          'background:#1a1a6e', 'color:#fff',
+          'font-family:Times New Roman,serif', 'font-size:11pt',
+          'padding:10px 22px', 'border-radius:6px',
+          'box-shadow:0 4px 16px rgba(0,0,0,0.25)',
+          'z-index:9999', 'opacity:0',
+          'transition:opacity 0.3s'
+        ].join(';');
+        document.body.appendChild(toast);
+      }
+      toast.textContent = msg;
+      toast.style.opacity = '1';
+      clearTimeout(toast._t);
+      toast._t = setTimeout(() => { toast.style.opacity = '0'; }, 2000);
+    }
+
+    function buildTable() {
+      const tbody = document.getElementById('sigBody');
+      tbody.innerHTML = '';
+      names.forEach((name, i) => {
+        // Signature display row
+        const tr = document.createElement('tr');
+        tr.id = 'row' + i;
+        const hasSig = !!signatures[i];
+        tr.innerHTML = `
+      <td>${i + 1}</td>
+      <td>${name}</td>
+      <td>
+        <div class="sig-cell${hasSig ? ' signed' : ''}" id="sc${i}" onclick="togglePad(${i})">
+          ${hasSig
+            ? `<img src="${signatures[i]}" class="sig-img" style="display:block;max-height:48px;max-width:100%;">`
+            : `<span class="sig-ph">Click to sign</span>`}
+          <span class="sig-edit-hint">${hasSig ? '✏️ edit' : '✏️'}</span>
+        </div>
+      </td>`;
+        tbody.appendChild(tr);
+
+        // Inline pad row
+        const padTr = document.createElement('tr');
+        padTr.id = 'pad' + i;
+        padTr.className = 'sig-pad-row';
+        padTr.innerHTML = `
+      <td colspan="3">
+        <div class="sig-pad-wrap">
+          <span class="sig-pad-label">✍️ Sign below — <strong>${name}</strong></span>
+          <canvas class="sig-pad-canvas" id="cv${i}" width="560" height="90"></canvas>
+          <div class="sig-pad-btns">
+            <button class="sp-btn clr" onclick="clearPad(${i})">Clear</button>
+            <button class="sp-btn save" onclick="savePad(${i})">Save Signature</button>
+            <button class="sp-btn" onclick="closePad(${i})">Cancel</button>
+          </div>
+        </div>
+      </td>`;
+        tbody.appendChild(padTr);
+      });
+    }
+
+    function togglePad(i) {
+      if (submitted) return;
+      if (activeIdx === i) { closePad(i); return; }
+      if (activeIdx !== null) closePad(activeIdx);
+      openPad(i);
+    }
+
+    function openPad(i) {
+      activeIdx = i;
+      const padRow = document.getElementById('pad' + i);
+      padRow.style.display = 'table-row';
+
+      const cv = document.getElementById('cv' + i);
+      const w = cv.offsetWidth || 560;
+      cv.width = w; cv.height = 90;
+      const ctx = cv.getContext('2d');
+      ctx.strokeStyle = '#000'; ctx.lineWidth = 1.8;
+      ctx.lineCap = 'round'; ctx.lineJoin = 'round';
+      ctx.clearRect(0, 0, cv.width, cv.height);
+
+      if (signatures[i]) {
+        const img = new Image();
+        img.onload = () => ctx.drawImage(img, 0, 0, cv.width, cv.height);
+        img.src = signatures[i];
+      }
+
+      drawing = false;
+
+      cv.onmousedown = e => {
+        drawing = true;
+        const r = cv.getBoundingClientRect();
+        lx = e.clientX - r.left; ly = e.clientY - r.top;
+      };
+      cv.onmousemove = e => {
+        if (!drawing) return;
+        const r = cv.getBoundingClientRect();
+        const x = e.clientX - r.left, y = e.clientY - r.top;
+        ctx.beginPath(); ctx.moveTo(lx, ly); ctx.lineTo(x, y); ctx.stroke();
+        lx = x; ly = y;
+      };
+      cv.onmouseup = () => drawing = false;
+      cv.onmouseleave = () => drawing = false;
+
+      cv.ontouchstart = e => {
+        e.preventDefault();
+        const r = cv.getBoundingClientRect(), t = e.touches[0];
+        drawing = true; lx = t.clientX - r.left; ly = t.clientY - r.top;
+      };
+      cv.ontouchmove = e => {
+        e.preventDefault();
+        if (!drawing) return;
+        const r = cv.getBoundingClientRect(), t = e.touches[0];
+        const x = t.clientX - r.left, y = t.clientY - r.top;
+        ctx.beginPath(); ctx.moveTo(lx, ly); ctx.lineTo(x, y); ctx.stroke();
+        lx = x; ly = y;
+      };
+      cv.ontouchend = () => drawing = false;
+
+      padRow.scrollIntoView({ behavior: 'smooth', block: 'nearest' });
+    }
+
+    function closePad(i) {
+      document.getElementById('pad' + i).style.display = 'none';
+      if (activeIdx === i) activeIdx = null;
+    }
+
+    function clearPad(i) {
+      const cv = document.getElementById('cv' + i);
+      cv.getContext('2d').clearRect(0, 0, cv.width, cv.height);
+    }
+
+    function isCanvasEmpty(cv) {
+      const ctx = cv.getContext('2d');
+      const pixelData = ctx.getImageData(0, 0, cv.width, cv.height).data;
+      for (let i = 0; i < pixelData.length; i += 4) {
+        if (pixelData[i+3] > 0) return false; // Any non-transparent pixel
+      }
+      return true;
+    }
+
+    function savePad(i) {
+      const cv = document.getElementById('cv' + i);
+      const sc = document.getElementById('sc' + i);
+
+      if (isCanvasEmpty(cv)) {
+        // Canvas blank → delete this signature
+        delete signatures[i];
+        sc.innerHTML = `<span class="sig-ph">Click to sign</span><span class="sig-edit-hint">✏️</span>`;
+        sc.classList.remove('signed');
+        // 🔴 Immediately remove from MongoDB
+        persistSignature(i, null);
+      } else {
+        // Canvas has drawing → save it
+        const data = cv.toDataURL('image/png');
+        signatures[i] = data;
+        sc.innerHTML = `
+          <img src="${data}" class="sig-img" style="display:block;max-height:48px;max-width:100%;">
+          <span class="sig-edit-hint">✏️ edit</span>`;
+        sc.classList.add('signed');
+        // 🟢 Immediately save to MongoDB
+        persistSignature(i, data);
+      }
+      closePad(i);
+    }
+
+    function submitResolution() {
+      submitted = true;
+      if (activeIdx !== null) closePad(activeIdx);
+
+      // Lock all cells
+      document.getElementById('mainPage').classList.add('submitted');
+      names.forEach((_, i) => {
+        const sc = document.getElementById('sc' + i);
+        if (!signatures[i]) sc.innerHTML = '';
+        sc.onclick = null;
+        sc.style.cursor = 'default';
+        sc.style.background = '#fff';
+      });
+
+      // Hide submit button
+      document.getElementById('submitArea').style.display = 'none';
+
+      // Show banner with date + print button
+      const now = new Date();
+      const dateStr = now.toLocaleDateString('en-GB', { day: '2-digit', month: 'long', year: 'numeric' })
+        + ' ' + now.toLocaleTimeString('en-GB', { hour: '2-digit', minute: '2-digit' });
+      // Send signatures to backend
+      const payload = {
+        signatures: signatures,
+        date: dateStr,
+        shareholderData: names.map((name, i) => ({
+          id: i + 1,
+          name: name,
+          signed: !!signatures[i]
+        }))
+      };
+
+      console.log("Saving signatures to backend...", payload);
+
+      fetch('/api/signatures', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify(payload)
+      })
+        .then(response => response.json())
+        .then(data => {
+          console.log("Success:", data);
+          if (data.storedInMongo) {
+            console.log("Successfully stored in MongoDB");
+          } else {
+            console.warn("Stored in local file system only (MongoDB connection unavailable)");
+          }
+        })
+        .catch(error => {
+          console.error("Error saving signatures:", error);
+        });
+
+
+      document.getElementById('submittedBanner').style.display = 'block';
+
+      document.getElementById('mainPage').scrollIntoView({ behavior: 'smooth', block: 'start' });
+    }
+  </script>
+</body>
