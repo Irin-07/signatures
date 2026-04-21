@@ -1,6 +1,11 @@
 {
-  "name": "resolution-signs",
+  "name": "resolution-3y2y",
   "version": 2,
+  "builds": [
+    { "src": "index.html", "use": "@vercel/static" },
+    { "src": "assets/**/*", "use": "@vercel/static" },
+    { "src": "api/index.js", "use": "@vercel/node" }
+  ],
   "rewrites": [
     { "source": "/api/(.*)", "destination": "/api/index.js" }
   ]
